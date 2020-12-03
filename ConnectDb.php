@@ -10,7 +10,6 @@ class ConnectDb {
     private $pass = '';
     private $name = 'townsend_music';
     
-    // The db connection is established in the private constructor.
     private function __construct()
     {
         $this->conn = new PDO(
