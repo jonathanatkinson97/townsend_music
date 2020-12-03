@@ -5,6 +5,7 @@ if(isset($_POST['submitted'])) {
     require_once 'ConnectDb.php';
     require 'ContactValidator.php';
     require 'User.php';
+    require 'Message.php';
 
     $user = new User();
     $validator = new ContactValidator($_POST);
@@ -15,6 +16,10 @@ if(isset($_POST['submitted'])) {
 
         $user = new User;
         $user->createIfNotExists($_POST);
+
+        $message = new Message;
+        $message->create($_POST, $user->getId());
+        $message->mail();
     }
 }
 
@@ -59,7 +64,7 @@ if(isset($_POST['submitted'])) {
 
             <div class="input-field">
                 <label for="subscribed">Subscribe?</label>
-                <input id="subscribed" type="checkbox" name="subscribed" checked="<?= $_POST['subscribed'] == 1 ?>" value="1" />
+                <input id="subscribed" type="checkbox" name="subscribed" checked="<?= $_POST['subscribed'] === 'true' ?>" value="1" />
             </div>
 
             <input type="submit" />

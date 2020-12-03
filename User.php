@@ -3,6 +3,7 @@
 class User
 {
     protected $db;
+    protected $id;
 
     public function __construct()
     {
@@ -21,16 +22,26 @@ class User
 
             $query = $this->db->prepare($sql);
 
-
             $query->bindValue('name', $request['name'], PDO::PARAM_STR);
             $query->bindValue('phone', $request['phone'], PDO::PARAM_STR);
             $query->bindValue('email', $request['email'], PDO::PARAM_STR);
             $query->bindValue('subscribed', $request['subscribed'] ?? false, PDO::PARAM_BOOL);
 
-            return $query->execute();
-        }
+            $query->execute();
+            $this->id = $this->db->lastInsertId();
 
-        return false;
+        } else {
+            
+            $sql = "SELECT id FROM users WHERE email = :email";
+
+            $query = $this->db->prepare($sql);
+            $query->bindValue('email', $request['email'], PDO::PARAM_STR);
+            $query->execute();
+
+            $result = $query->fetchAll(PDO::FETCH_ASSOC)[0];
+
+            $this->id = $result['id'];
+        }
     }
 
 
@@ -46,6 +57,11 @@ class User
         $query->execute();
 
         return ($query->rowCount() > 0);
+    }
+
+    public function getId() 
+    {
+        return $this->id;
     }
 
 }
