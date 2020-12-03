@@ -22,11 +22,9 @@ class ContactValidator {
     {
         $errors = [];
 
-        var_dump($this->data);
-
         foreach($this->data as $key => $value) {
 
-            if(method_exists('Validator', $key)) {
+            if(method_exists('ContactValidator', $key)) {
                 $value = $this->$key($value);
             }
 
@@ -41,7 +39,7 @@ class ContactValidator {
             }
         }
 
-        return empty($errors) ? true : $errors;
+        return $errors;
     }
 
     /********************
@@ -80,7 +78,7 @@ class ContactValidator {
 
      protected function phone($phone) {
 
-        preg_replace('/[^0-9]/', $phone);
+        preg_replace('/[^0-9]/', '', $phone);
 
         if(!is_string($phone) || strlen($phone) < 10){
             return ['error' => "Please enter a valid phone number"];

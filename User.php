@@ -12,7 +12,6 @@ class User
 
     public function createIfNotExists($request) 
     {
-
         if(!$this->userExists($request['email'])) {
 
             $sql = "
