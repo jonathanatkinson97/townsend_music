@@ -1,8 +1,10 @@
 <?php
 
+require_once 'ConnectDb.php';
+require_once 'CSRF.php';
+
 if(isset($_POST['submitted'])) {
 
-    require_once 'ConnectDb.php';
     require 'ContactValidator.php';
     require 'User.php';
     require 'Message.php';
@@ -23,6 +25,11 @@ if(isset($_POST['submitted'])) {
 
         header('Location: contact_success.php');
     }
+} else {
+
+    $csrf = new CSRF;
+    $csrf_token = $csrf->generateToken();
+
 }
 
 ?>
@@ -42,7 +49,10 @@ if(isset($_POST['submitted'])) {
 
                 <form action="/townsend_music/index.php" method="POST">
 
-                    <input type="hidden" name="submitted" value="true"/>
+                    <input type="hidden" name="submitted" value="true" />
+                    <input type="hidden" name="csrf" value="<?= $csrf_token ?>" />
+
+                    <p class="error"><?= $errors['csrf'] ?? '' ?></p>
 
                     <div class="input-field">
                         <label for="name">Name</label>

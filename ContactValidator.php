@@ -46,6 +46,13 @@ class ContactValidator {
      * VALIDATION RULES *
      ********************/
 
+    protected function csrf($csrf)
+    {
+        if(!(new CSRF)->validToken($csrf)){
+            return ['error' => "Page Expired, please try again"];
+        }
+    }
+
     protected function email($email)
     {
         if(!is_string($email) || strlen($email) < 1) {

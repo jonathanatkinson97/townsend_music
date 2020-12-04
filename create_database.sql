@@ -26,8 +26,7 @@ create table messages
 create table csrf_tokens
 (
     id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-    user_id INT UNSIGNED NOT NULL,
+    ip_address VARCHAR(50) NOT NULL,
     token VARCHAR(50) NOT NULL,
-    created_at DATETIME NOT NULL,
-    FOREIGN KEY (users_id) REFERENCES users(id)
+    created_at DATETIME NOT NULL DEFAULT NOW()
 );
