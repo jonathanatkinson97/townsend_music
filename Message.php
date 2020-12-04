@@ -4,7 +4,7 @@ class Message {
 
     protected $db;
     protected $id;
-    protected $mail_to = 'jonathan.atkinson97@gmail.com';
+    protected $mail_to = 'your_email@example.com';
 
     public function __construct()
     {
@@ -12,6 +12,9 @@ class Message {
         $this->db = $instance->getConnection();
     }
 
+    /**
+     * Store the passed message in the database
+     */
     public function create($request, $user_id)
     {
         $this->message = $request['message'];
@@ -31,11 +34,17 @@ class Message {
         $this->id = $this->db->lastInsertId();
     }
 
+    /**
+     * Return the Message ID
+     */
     public function getId() 
     {
         return $this->id;
     }
 
+    /**
+     * Send an email containing the message to the appropriate recipients
+     */
     public function mail()
     {
         $subject = "New Message from User";
@@ -51,7 +60,9 @@ class Message {
         mail($this->mail_to, $subject, $body);
     }
 
-
+    /**
+     * Retrieve the user who sent this message
+     */
     protected function getUser() 
     {
         $sql = "

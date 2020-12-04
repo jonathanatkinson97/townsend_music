@@ -10,6 +10,9 @@ class CSRF {
         $this->db = $instance->getConnection();
     }
 
+    /**
+     * Generate a token for CSRF validation and store it in the database
+     */
     public function generateToken()
     {
         $token = bin2hex(random_bytes(50));
@@ -24,6 +27,9 @@ class CSRF {
         return $token;
     }
 
+    /**
+     * Check whether the passed $token is valid
+     */
     public function validToken($token)
     {
         $sql = "

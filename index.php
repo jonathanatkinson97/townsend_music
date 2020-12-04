@@ -25,6 +25,7 @@ if(isset($_POST['submitted'])) {
 
         header('Location: contact_success.php');
     }
+    
 } else {
 
     $csrf = new CSRF;

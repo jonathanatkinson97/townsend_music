@@ -11,6 +11,9 @@ class User
         $this->db = $instance->getConnection();
     }
 
+    /**
+     * Store the user in the database if they do not already exist
+     */
     public function createIfNotExists($request) 
     {
         if(!$this->userExists($request['email'])) {
@@ -59,6 +62,9 @@ class User
         return ($query->rowCount() > 0);
     }
 
+    /**
+     * Return the user's ID
+     */
     public function getId() 
     {
         return $this->id;
